@@ -19,3 +19,4 @@ export default class CreditCardApplication extends Component {
     )
   }
 };
+
