@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setLoggedInAs } from './redux/reducer';
+import { logInAs } from './ducks/reducer';
 
 class Login extends Component {
   constructor() {
@@ -17,13 +17,14 @@ class Login extends Component {
   }
 
   render() {
-    const { loggedInAs, isCreditCardHolder } = this.props;
+    const { loggedInAs, isCreditCardHolder, dispatch } = this.props;
 
     return (
       <div className="login">
         {!loggedInAs && <div>
-          Log in as <input onChange={(e) => this.updateLoginName(e.target.value)} /> 
-          <button className="button">Go</button>
+          Log in as <input onChange={(e) => this.updateLoginName(e.target.value)} /> <button className="button"
+            onClick={() => dispatch(logInAs(this.state.loginName))}
+          >Go</button>
         </div>}
         {loggedInAs && <div>
           Welcome, {loggedInAs}! {isCreditCardHolder && "(CC holder)"}
@@ -35,14 +36,17 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggdInAs: state.loggedInAs,
+    loggedInAs: state.loggedInAs,
     isCreditCardHolder: state.isCreditCardHolder,
   }
 };
 
+
+
+// This set of lines...
 // const connector = connect(mapStateToProps);
 // const connectedLogin = connector(Login);
 // export default connectedLogin;
 
-//those ^^^ do the same as this does)
+// ... does the same thing as this. This is more common to see.
 export default connect(mapStateToProps)(Login);
